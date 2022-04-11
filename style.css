@@ -10,6 +10,6 @@ body{
 canvas{
         border-radius: 5px;
         border-width: 10px;
-        border-style: dashed;
+        border-style: solid;
     }
     
