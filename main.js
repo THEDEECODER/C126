@@ -3,7 +3,9 @@ leftwristy = 0;
 rightwristx = 0;
 rightwristy = 0;
 song = "";
-scoreLWY ="0";
+scoreLWY = 0;
+scoreRWY = 0;
+vol = 0;
 function preload(){
 song = loadSound("music1.mp3");
 }
@@ -19,18 +21,42 @@ function draw() {
     image(video, 0, 0, 600, 500);
     stroke("#E63946");
     fill("#E63946");
-    circle(leftwristx, leftwristy, 20);
-    if(scoreLWY > 0.2){
-        LWY = Number(leftwristy);
-        removedecimal = Math.floor(LWY*2);
-        vol = removedecimal/1000;
-        console.log(vol);
+    if(scoreRWY > 0.2){
+    circle(rightwristx, rightwristy, 20);
+    if((rightwristy > 0) &&(rightwristy <= 100) ){
+        document.getElementById("speed").innerHTML = "Speed : 0.5";
+        song.rate(0.5);
     }
+    if((rightwristy > 100) &&(rightwristy <= 200) ){
+        document.getElementById("speed").innerHTML = "Speed : 1";
+        song.rate(1);
+    }
+    if((rightwristy > 200) &&(rightwristy <= 300) ){
+        document.getElementById("speed").innerHTML = "Speed : 1.5";
+        song.rate(1.5);
+    }
+    if((rightwristy > 300) &&(rightwristy <= 400) ){
+        document.getElementById("speed").innerHTML = "Speed : 2";
+        song.rate(2);
+    }
+    if((rightwristy > 400) &&(rightwristy <= 500) ){
+        document.getElementById("speed").innerHTML = "Speed : 2.5";
+        song.rate(2.5);
+    }
+}
+    if(scoreLWY > 0.2){
+        circle(leftwristx, leftwristy, 20);
+        LWY = Number(leftwristy);
+        removedecimal = Math.floor(LWY);
+        vol = removedecimal/500;
+        console.log(vol);
+        document.getElementById("volume").innerHTML ="volume" + vol;
+    }
+
 }
 function play() {
     song.play();
     song.setVolume(vol);
-    song.rate(1);
 }
 function modelloaded(){
     console.log("posenet is initialized");
@@ -46,6 +72,8 @@ function gotposes(results){
         console.log("Right wrist x coordinates = "+rightwristx+ "Right wrist y coordinates = "+leftwristy);
         scoreLWY = results[0].pose.keypoints[9].score;
         console.log("Left Wrist score = "+scoreLWY);
+        scoreRWY = results[0].pose.keypoints[10].score;
+        console.log("Right Wrist score = "+scoreRWY);
     }
     
 }
